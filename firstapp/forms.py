@@ -2,7 +2,7 @@ from django import forms
 
 STATES = (
     ('', 'Choose...'),
-    ('kl', 'kerala'),
+    ('kL', 'kerala'),
     ('TN', 'Tamil Nadu'),
     ('KD', 'karnadaka')
 )
@@ -19,4 +19,6 @@ class AddressForm(forms.Form):
     city = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'city'}))
     state = forms.ChoiceField(choices=STATES)
     zip_code = forms.CharField(label='Zip')
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Enter Password'}))
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Re-enter Password'}))
     check_me_out = forms.BooleanField(required=False)

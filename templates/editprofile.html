@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="container py-4 ">
+    <div class="row">
+        <div class="cal-md-6" style="box-shadow: 0px 0px 5px red; border-radius:10px">
+
+            <form action="" method="post" enctype="multipart/form-data" class="p-3 ">
+                {% csrf_token %}
+                {% if msg %}
+                <div class="alert alert-success w-50 my-2 text-center">
+                    <strong>{{ msg }}</strong>
+                </div>
+
+                {% endif %}
+
+                <div class="form-group ">
+
+                    <label>Name</label>
+                    <input type="text" class="form-control" name="name" value="{{user.username}}">
+
+
+                    <label>Email</label>
+                    <input type="text" class="form-control" name="email" value="{{user.email}}">
+
+
+
+                    <label>Phone</label>
+                    <input type="text" class="form-control" name="mob" value="{{data.contact_no}}">
+
+
+                    <label>City</label>
+                    <input type="text" class="form-control" name="city" value="{{data.city}}">
+
+
+                    <label>Address</label>
+                    <input type="text" class="form-control" name="address" value="{{data.Address}}">
+
+
+                    <label>Profile-Pic</label>
+                    <input type="file" class="form-control" name="pic">
+
+                    <input type="submit" class="btn btn-dark mt-2 " value="Save changes">
+
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
