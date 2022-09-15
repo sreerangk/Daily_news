@@ -1,31 +1,22 @@
 from django import forms
-from datetime import datetime
-from django.urls import reverse_lazy
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
 
-class UniversityForm(forms.Form):
+STATES = (
+    ('', 'Choose...'),
+    ('kl', 'kerala'),
+    ('TN', 'Tamil Nadu'),
+    ('KD', 'karnadaka')
+)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        self.helper.form_action = reverse_lazy('index')
-        self.helper.form_method = 'POST'
-        self.helper.add_input(Submit('submit', 'Submit'))
-
-    SUBJECT_CHOICES = (
-        (1, 'Web Development'),
-        (2, 'Systems Programming'),
-        (3, 'Data Science'),
+class AddressForm(forms.Form):
+    name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter name '}))
+    email = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter Email id'}))
+    username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
+    address_1 = forms.CharField(
+        label='Address',
+        widget=forms.TextInput(attrs={'placeholder': 'Address'})
     )
-    
-    name = forms.CharField(widget=forms.TextInput(attrs={
-        'hx-get': reverse_lazy('index'),
-        'hx-trigger': 'keyup'
-    }))
-    age = forms.IntegerField()
-    subject = forms.ChoiceField(
-        choices=SUBJECT_CHOICES,
-        widget=forms.RadioSelect()
-    )
-    date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type': 'date', 'max': datetime.now().date()}))
+ 
+    city = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'city'}))
+    state = forms.ChoiceField(choices=STATES)
+    zip_code = forms.CharField(label='Zip')
+    check_me_out = forms.BooleanField(required=False)
