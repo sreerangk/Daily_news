@@ -1,67 +1,58 @@
 {% extends 'base.html' %}
 
-{% load crispy_forms_tags %}
-
 {% block content %}
 
 
+
 <div class="container py-5">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-        <div class="card" style="border-radius: 15px;">
-          <div class="card-body p-5">
-            <h2 class="text-uppercase text-center mb-5">Create an account</h2>
-             <div class="container">
-                <form method="post" action="/">
-                {% csrf_token %}
-                <div class="form-row">
-                  <div class="form-group col-md-12 mb-0">
-                    {{ form.name|as_crispy_field }}
-                  </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-12 mb-0">
-                      {{ form.email|as_crispy_field }}
-                    </div>      
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group col-md-12 mb-0">
-                      {{ form.username|as_crispy_field }}
-                    </div>
-                  </div>
-                {{ form.address|as_crispy_field }}
-              
-                <div class="form-row">
-                  <div class="form-group col-md-6 mb-0">
-                    {{ form.city|as_crispy_field }}
-                  </div>
-                  <div class="form-group col-md-4 mb-0">
-                    {{ form.state|as_crispy_field }}
-                  </div>
-                  <div class="form-group col-md-2 mb-0">
-                    {{ form.zip_code|as_crispy_field }}
-                  </div>
-                </div>
-                <div class="form-row ">
-                    <div class="form-group col-md-12 mb-0 ">
-                      {{ form.password|as_crispy_field }}
-                    </div>
-                    <div class="form-group col-md-12 mb-0">
-                        {{ form.password2|as_crispy_field }}
-                      </div>
-                  </div>
-                {{ form.check_me_out|as_crispy_field }}
-                <button type="submit" class="btn btn-primary">Sign in</button>
-              </form></div>
-              </div>
-  
-  
-            </form>
-          </div>
+  <div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+      <div class="card" style="border-radius: 15px;">
+        <div class="card-body p-5">
+          <h2 class="text-uppercase text-center mb-5">Create an account</h2>
+
+          <form action="{% url 'signup' %}" method="post" class="p-3 ">
+            {% csrf_token %}
+            {% if msg %}
+            <div class="alert alert-success w-50 my-2 text-center">
+              <strong>{{ msg }}</strong>
+            </div>
+
+            {% endif %}
+
+            <div class="form-group ">
+
+              <label>Name</label>
+              <input type="text" class="form-control" name="name">
+
+
+              <label>Email</label>
+              <input type="text" class="form-control" name="email">
+
+
+
+              <label>Phone</label>
+              <input type="text" class="form-control" name="mob">
+
+
+              <label>password</label>
+              <input type="password" class="form-control" name="pass1">
+
+
+              <label>password2</label>
+              <input type="password" class="form-control" name="rpass">
+
+              <input type="submit" class="btn btn-dark mt-2 " value="Save    ">
+
+            </div>
+
+
+          </form>
         </div>
       </div>
     </div>
   </div>
-  </div>
+</div>
+</div>
 
 {% endblock %}
