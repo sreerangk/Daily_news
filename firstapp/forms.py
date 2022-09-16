@@ -11,7 +11,7 @@ class AddressForm(forms.Form):
     name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter name '}))
     email = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter Email id'}))
     username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
-    address_1 = forms.CharField(
+    address = forms.CharField(
         label='Address',
         widget=forms.TextInput(attrs={'placeholder': 'Address'})
     )
