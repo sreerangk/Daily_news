@@ -15,12 +15,19 @@
             {% csrf_token %}
             {% for message in messages %}
     
-            <div class="alert alert-success">
+            <div class="alert alert-danger">
                 <a class="close" href="#" data-dismiss="alert"></a>
                    {{ message }}
             </div>
         
         {% endfor %}
+        {% if msg %}
+        <div class="alert alert-success w-50 my-2 text-center">
+          <strong>{{ msg }}</strong>
+        </div>
+
+        {% endif %}
+
             <div class="form-group ">
               
               <label>Name</label>
