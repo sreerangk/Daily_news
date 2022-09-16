@@ -13,39 +13,40 @@
 
           <form action="{% url 'signup' %}" method="post" class="p-3 ">
             {% csrf_token %}
-            {% if msg %}
-            <div class="alert alert-success w-50 my-2 text-center">
-              <strong>{{ msg }}</strong>
+            {% for message in messages %}
+    
+            <div class="alert alert-success">
+                <a class="close" href="#" data-dismiss="alert"></a>
+                   {{ message }}
             </div>
-
-            {% endif %}
-
+        
+        {% endfor %}
             <div class="form-group ">
-
+              
               <label>Name</label>
-              <input type="text" class="form-control" name="name">
-
+              <input type="text" class="form-control" name="name"required>
+             
+           
 
               <label>Email</label>
-              <input type="text" class="form-control" name="email">
+              <input type="text" class="form-control" name="email" required>
 
 
 
               <label>Phone</label>
-              <input type="text" class="form-control" name="mob">
+              <input type="text" class="form-control" name="mob" required>
 
 
               <label>password</label>
-              <input type="password" class="form-control" name="pass1">
+              <input type="password" class="form-control" name="pass1" required>
 
 
               <label>password2</label>
-              <input type="password" class="form-control" name="rpass">
+              <input type="password" class="form-control" name="rpass" required>
 
-              <input type="submit" class="btn btn-dark mt-2 " value="Save    ">
+              <input type="submit" class="btn btn-dark mt-2 " value="Save" required>
 
             </div>
-
 
           </form>
         </div>
