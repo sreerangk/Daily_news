@@ -1,15 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from firstapp.forms import AddressForm
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,auth
+from django.contrib.auth import authenticate,login ,logout
 from django.contrib import messages
-from django.shortcuts import redirect
 
 # Create your views here.
 def index(request):
-    
-    
+ 
     return render(request, 'index.html')
-    
 
 def base(request):
     return render(request, 'base.html')
@@ -18,6 +16,7 @@ def base(request):
     
 def signup(request):
     if request.method=="POST":
+        #username=request.POST.get('username')
         username=request.POST['name']
         email=request.POST['email']
         password=request.POST['pass1']
@@ -60,19 +59,18 @@ def login(request):
     return render(request, 'login.html')
 
 def userlogin(request):
-    if request.method=="post":
-        user_name.request.POST=['username']
-        pass_word.request.POST=['Password']
-        User=auth.authenticate(username=user_name,password=pass_word)
-        return redirect('index')
-        if User is not None:            # means if user is authendicated
-            auth.login(request,User)
-            print('user not none')
-            return redirect('index')
+    if request.method=='POST':
+        username=request.POST['username']
+        password=request.POST['password']
+        user=auth.authenticate(username=username,password=password)
+        if user is not None:            # means if user is authendicated
+            auth.login(request,user)
+            return render(request, 'index.html')
+      
         else:
-            print('failed')
-            return redirect('login')
-    return render(request, 'index.html')
+            messages.error(request,'user name is inccorect')
+            return redirect('userlogin')
+    return render(request, 'login.html')
     
 
 
