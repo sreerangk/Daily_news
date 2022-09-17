@@ -59,6 +59,8 @@ def login(request):
     return render(request, 'login.html')
 
 def userlogin(request):
+    if request.user.is_authenticated:            #django authendication
+        return redirect(index)
     if request.method=='POST':
         username=request.POST['username']
         password=request.POST['password']
@@ -66,14 +68,16 @@ def userlogin(request):
         if user is not None:            # means if user is authendicated
             auth.login(request,user)
             return render(request, 'index.html')
-      
+
         else:
             messages.error(request,'user name is inccorect')
             return redirect('userlogin')
     return render(request, 'login.html')
     
-
-
+def user_logout(request):
+    request.session["lin"] = ""
+    auth.logout(request)
+    return redirect('login')
 def editprofile(request):
     return render(request, 'editprofile.html')
 

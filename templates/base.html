@@ -43,12 +43,19 @@
                         <li class="nav-item border-right border-secondary">
                             <a class="nav-link text-body small" href="{% url 'signup' %}">Signup</a>
                         </li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link text-body small" href="{% url 'user_logout' %}">Logout</a>
+                        </li>
+                        {% else %}
                         <li class="nav-item">
                             <a class="nav-link text-body small" href="{% url 'login' %}">Login</a>
                         </li>
+                        {% endif %}
                     </ul>
                 </nav>
             </div>
+            
             <div class="col-lg-3 text-right d-none d-md-block">
                 <nav class="navbar navbar-expand-sm bg-dark p-0">
                     <ul class="navbar-nav ml-auto mr-n2">
@@ -81,7 +88,17 @@
                 </a>
             </div>
             <div class="col-lg-8 text-center text-lg-right">
-                <a href="#"><img class="img-fluid" src="{% static 'img/ads-728x90.png' %}" alt=""></a>
+                {% if user.is_authenticated %}
+               
+                {% if data.dp %} 
+               
+                <a href=""><img src="{{ data.dp.url }}"  class="mr-3 rounded-circle"  style="height:40px; width:40px" alt="dp"></a>
+                  
+                {% else %}
+                <a href=""><img src="{% static 'img\O.jpg' %}"  class="mr-3 rounded-circle" height="60" width="60" alt="dp"></a>
+        
+                {% endif %}
+                {% endif %}
             </div>
         </div>
     </div>
