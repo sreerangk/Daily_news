@@ -20,14 +20,8 @@
                    {{ message }}
             </div>
         
-        {% endfor %}
-        {% if msg %}
-        <div class="alert alert-success w-50 my-2 text-center">
-          <strong>{{ msg }}</strong>
-        </div>
-
-        {% endif %}
-
+            {% endfor %}
+            
             <div class="form-group ">
               
               <label>Name</label>
@@ -36,12 +30,12 @@
            
 
               <label>Email</label>
-              <input type="text" class="form-control" name="email" required>
+              <input type="email" class="form-control" name="email" required>
 
 
 
-              <label>Phone</label>
-              <input type="text" class="form-control" name="mob" required>
+              <label>Contact No</label>
+              <input type="tel" class="form-control" name="mob" required >
 
 
               <label>password</label>

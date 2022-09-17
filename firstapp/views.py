@@ -24,13 +24,16 @@ def signup(request):
         password2=request.POST['rpass']
         mob=request.POST['mob']
         if password==password2:
-           
+        
             if len(username)<= 6:
                 messages.error(request, " Your user name must minimum 6 characters")
-                return redirect(signup)
+                return redirect('signup')
 
             if not username.isalnum():
                 messages.error(request, " User name should only contain letters and numbers")
+                return redirect('signup')
+            if not mob.isdigit():
+                messages.error(request, "Contact number should only contain numbers")
                 return redirect('signup')
             if User.objects.filter(username=username).exists():
                 messages.error(request,'username is already exist')
@@ -38,17 +41,23 @@ def signup(request):
             elif User.objects.filter(email=email).exists():
                 messages.error(request,'email is already exist')
                 return redirect('signup')
-            else:
+            else:                                              #user creation
                 user=User.objects.create_user(username=username,email=email,password=password)
+ 
                 return redirect('login')         
         else:
-            messages.success(request,'account created')
+            messages.error(request,'password not matching')
             return redirect('signup')
     else:
+
         return render(request, 'signup.html')
+
+   
+
     return render(request, 'signup.html')
     
 def login(request):
+
     return render(request, 'login.html')
 
 
