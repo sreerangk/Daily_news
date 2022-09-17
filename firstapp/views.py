@@ -6,7 +6,11 @@ from django.contrib import messages
 
 # Create your views here.
 def index(request):
- 
+    if request.user.is_authenticated:            #django authendication
+        return redirect(index)
+    else :
+        return redirect(userlogin)
+        
     return render(request, 'index.html')
 
 def base(request):
@@ -43,7 +47,7 @@ def signup(request):
             else:                                              #user creation
                 user=User.objects.create_user(username=username,email=email,password=password)
  
-                return redirect('login')         
+                return redirect('userlogin')         
         else:
             messages.error(request,'password not matching')
             return redirect('signup')
@@ -75,9 +79,11 @@ def userlogin(request):
     return render(request, 'login.html')
     
 def user_logout(request):
-    request.session["lin"] = ""
-    auth.logout(request)
-    return redirect('login')
+    # if 'username' in request.session:           /// 2nd method
+    if request.user.is_authenticated:
+        logout(request)
+        #request.session.flush()
+    return redirect(userlogin)
 def editprofile(request):
     return render(request, 'editprofile.html')
 
