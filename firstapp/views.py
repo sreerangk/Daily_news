@@ -25,7 +25,7 @@ def signup(request):
         mob=request.POST['mob']
         if password==password2:
         
-            if len(username)<= 6:
+            if len(username)< 6:
                 messages.error(request, " Your user name must minimum 6 characters")
                 return redirect('signup')
 
@@ -57,8 +57,23 @@ def signup(request):
     return render(request, 'signup.html')
     
 def login(request):
-
     return render(request, 'login.html')
+
+def userlogin(request):
+    if request.method=="post":
+        user_name.request.POST=['username']
+        pass_word.request.POST=['Password']
+        User=auth.authenticate(username=user_name,password=pass_word)
+        return redirect('index')
+        if User is not None:            # means if user is authendicated
+            auth.login(request,User)
+            print('user not none')
+            return redirect('index')
+        else:
+            print('failed')
+            return redirect('login')
+    return render(request, 'index.html')
+    
 
 
 def editprofile(request):
