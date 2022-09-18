@@ -177,3 +177,7 @@ def changepasswordauth(request):
             return render(request,'changepassword.html')
     
     return render(request,'changepassword.html')
+
+
+def edit_user(request):
+    return render(request, 'edit_user.html')
