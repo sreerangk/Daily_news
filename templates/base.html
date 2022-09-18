@@ -42,8 +42,11 @@
                         </li>
                         {% if user.is_authenticated  %}
 
-                        <li class="nav-item">
+                        <li class="nav-item  border-right border-secondary">
                             <a class="nav-link text-body small" href="{% url 'user_logout' %}">Logout</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-body small" href="{% url 'editprofile' %}">Edit profile</a>
                         </li>
                         {% else %}
                         <li class="nav-item border-right border-secondary">
@@ -91,14 +94,14 @@
             <div class="col-lg-8 text-center text-lg-right">
                 {% if user.is_authenticated  %}
                
-                {% if data.dp %} 
+                <!-- {% if data.dp %} 
                
                 <a href=""><img src="{{ data.dp.url }}"  class="mr-3 rounded-circle"  style="height:40px; width:40px" alt="dp"></a>
                   
-                {% else %}
-                <a href=""><img src="{% static 'img\O.jpg' %}"  class="mr-3 rounded-circle" height="60" width="60" alt="dp"></a>
+                {% else %} -->
+                <a href="{% url 'editprofile' %}"><img src="{% static 'img\O.jpg' %}"  class="mr-3 rounded-circle" height="60" width="60" alt="dp"></a>
         
-                {% endif %}
+                <!-- {% endif %} -->
                 {% endif %}
             </div>
         </div>
@@ -107,7 +110,7 @@
 
 
     <!-- Navbar Start -->
-    {% if user.is_authenticated or user.is_superuser %}
+
     <div class="container-fluid p-0">
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-2 py-lg-0 px-lg-5">
             <a href="index.html" class="navbar-brand d-block d-lg-none">
@@ -118,9 +121,15 @@
             </button>
             <div class="collapse navbar-collapse justify-content-between px-0 px-lg-3" id="navbarCollapse">
                 <div class="navbar-nav mr-auto py-0">
+                    {% if user.is_authenticated and user.is_superuser %}
                     <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
-                    <a href="category.html" class="nav-item nav-link">Category</a>
+                    <a href="category.html" class="nav-item nav-link">user details</a>
+                    <a href="single.html" class="nav-item nav-link">deleted user</a>
+                    {% elif user.is_authenticated %}
+                    <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
+                    <a href="category.html" class="nav-item nav-link">category</a>
                     <a href="single.html" class="nav-item nav-link">Single News</a>
+                    {% endif %}
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Dropdown</a>
                         <div class="dropdown-menu rounded-0 m-0">
@@ -141,7 +150,7 @@
             </div>
         </nav>
     </div>
-    {% endif %}
+
     <!-- Navbar End -->
 
 

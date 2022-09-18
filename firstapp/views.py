@@ -57,7 +57,7 @@ def userlogin(request):
         user=auth.authenticate(username=username,password=password)
         if user is not None:            # means if user is authendicated
             auth.login(request,user)
-            return redirect('editprofile')
+            return redirect('index')
 
         else:
             messages.error(request,'user name is inccorect')
@@ -77,7 +77,7 @@ def index(request):
 
     
 def editprofile(request):
-    return render(request, 'index.html')
+    return render(request, 'editprofile.html')
 
 
 def changepassword(request):
