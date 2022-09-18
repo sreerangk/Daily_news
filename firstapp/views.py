@@ -5,13 +5,6 @@ from django.contrib.auth import authenticate,login ,logout
 from django.contrib import messages
 
 # Create your views here.
-def index(request):
-    if request.user.is_authenticated:            #django authendication
-        return redirect(index)
-    else :
-        return redirect(userlogin)
-        
-    return render(request, 'index.html')
 
 def base(request):
     return render(request, 'base.html')
@@ -54,24 +47,17 @@ def signup(request):
     else:
 
         return render(request, 'signup.html')
-
-   
-
     return render(request, 'signup.html')
     
-def login(request):
-    return render(request, 'login.html')
 
 def userlogin(request):
-    if request.user.is_authenticated:            #django authendication
-        return redirect(index)
     if request.method=='POST':
         username=request.POST['username']
         password=request.POST['password']
         user=auth.authenticate(username=username,password=password)
         if user is not None:            # means if user is authendicated
             auth.login(request,user)
-            return render(request, 'index.html')
+            return redirect('editprofile')
 
         else:
             messages.error(request,'user name is inccorect')
@@ -81,11 +67,17 @@ def userlogin(request):
 def user_logout(request):
     # if 'username' in request.session:           /// 2nd method
     if request.user.is_authenticated:
-        logout(request)
+        auth.logout(request)
         #request.session.flush()
-    return redirect(userlogin)
+        return redirect(userlogin)
+
+def index(request):
+    
+    return render(request, 'index.html')
+
+    
 def editprofile(request):
-    return render(request, 'editprofile.html')
+    return render(request, 'index.html')
 
 
 def changepassword(request):
