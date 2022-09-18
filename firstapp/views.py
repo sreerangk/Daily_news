@@ -4,6 +4,7 @@ from django.contrib.auth.models import User,auth
 from django.contrib.auth import authenticate,login ,logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from .models import u_dp
 
 # Create your views here.
 
@@ -82,11 +83,96 @@ def index(request):
 
 @login_required(login_url='login')   
 def editprofile(request):
-    return render(request, 'editprofile.html')
- 
+    data=u_dp.objects.all()
+    
+    try:
+        data=u_dp.objects.get(userdt__id=request.user.id)
+     
+    except u_dp.DoesNotExist:
+        user = None
+    context={'data':data}
+    return render(request, 'editprofile.html',context)
+
+   
+def userpro(request):
+    data=u_dp.objects.all()
+    
+    try:
+        data=u_dp.objects.get(userdt__id=request.user.id)
+     
+    except u_dp.DoesNotExist:
+        user = None
+        context={'data':data,}
+    return render(request, 'userpro.html',context)
+
+
+@login_required(login_url='login')
+def editauth(request):
+    data=u_dp.objects.get(userdt__id=request.user.id)
+    context={}
+    context['data']=data
+    if request.method=="POST":
+        na=request.POST['name']
+        em=request.POST['email']
+        mo=request.POST['mob']
+        ci=request.POST['city']
+        ad=request.POST['address']
+        us=User.objects.get(id=request.user.id)
+        us.username=na
+        us.email=em
+        us.save()
+        data.Address=ad
+        data.contact_no=mo
+        data.city=ci
+        data.save()
+        if "pic" in request.FILES:
+            data.dp=request.FILES['pic']
+            data.save()
+        else:
+            print("no pic")
+        context['msg']="updated"
+        return render(request,'userpro.html', context)
+    return render(request,'editprofile.html', context)
 
 def changepassword(request):
     return render(request, 'changepassword.html')
 
 
     
+def changepassword(request):
+    data=u_dp.objects.all()
+    
+    try:
+        data=u_dp.objects.get(userdt__id=request.user.id)
+     
+    except u_dp.DoesNotExist:
+        user = None
+    context={'data':data}
+  
+    return render(request,'changepassword.html', context )
+ 
+@login_required(login_url='login')
+def changepasswordauth(request):
+    if request.method=="POST":
+        oldpassword=request.POST['oldpassword']
+        newpassword=request.POST['newpassword']
+        newpassword2=request.POST['newpassword2']
+        user = User.objects.get(username=request.user)
+        check=user.check_password(oldpassword)
+
+        if check==True:
+            if newpassword==newpassword2:
+                user.set_password(newpassword)
+                user.save()
+              #messages.info(request,'password changed successfully')
+                print('password changed')
+                return redirect('user_login')
+            else:
+             #   messages.info(request,'password not matching')
+                print('password22 not matching')
+                return render(request,'changepassword.html')
+        else:
+            # messages.info(request,'old password not matching')
+             return render(request,'changepassword.html')
+    else:
+        return render(request,'changepassword.html')

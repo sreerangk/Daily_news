@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="contaner m-5">
+    <div class="row  justify-content-center">
+        <div class="col-md-6 h4">
+            <div class="card justify-content-center ">
+
+
+                <div class="card-header justify-content-center text-center ">
+                    {% if user.is_authenticated %}
+                    {% if data.dp %}
+
+                    <a href="{% url 'userpro' %}"><img src="{{ data.dp.url }}" class="mr-3 rounded-circle"
+                            style="height:150px; width:150px" alt="dp"></a>
+
+                    {% else %}
+                    <a href="{% url 'userpro' %}"><img src="{% static 'img\O.jpg' %}" class="mr-3 rounded-circle"
+                            height="20" width="20" alt="dp"></a>
+
+                    {% endif %}
+                    {% endif %}
+
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th>User ID</th>
+                                <td>{{user.id}}</td>
+                            </tr>
+                            <tr>
+                                <th>Username</th>
+                                <td>{{user.username}}</td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <th>{{user.email}}</th>
+
+                            </tr>
+                            <tr>
+                                <td>join Date</td>
+                                <th>{{ user.date_joined }}</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="{% url 'changepassword' %}"> <button class="mx-2 btn btn-primary">RESET
+                            PASSWORD</button></a>
+                    <a href="{% url 'editpro' %}"> <button class="btn btn-primary">EDIT PROFILE</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+
+{% endblock %}

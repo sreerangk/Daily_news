@@ -6,7 +6,7 @@
     <div class="row">
         <div class="cal-md-6" style="box-shadow: 0px 0px 5px red; border-radius:10px">
 
-            <form action="" method="post" enctype="multipart/form-data" class="p-3 ">
+            <form action="{% url 'editauth' %}" method="post" enctype="multipart/form-data" class="p-3 ">
                 {% csrf_token %}
                 {% if msg %}
                 <div class="alert alert-success w-50 my-2 text-center">
