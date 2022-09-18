@@ -3,6 +3,7 @@ from firstapp.forms import AddressForm
 from django.contrib.auth.models import User,auth
 from django.contrib.auth import authenticate,login ,logout
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -51,6 +52,8 @@ def signup(request):
     
 
 def userlogin(request):
+    if request.user.is_authenticated:
+        return redirect('index')
     if request.method=='POST':
         username=request.POST['username']
         password=request.POST['password']
@@ -72,13 +75,15 @@ def user_logout(request):
         return redirect(userlogin)
 
 def index(request):
-    
-    return render(request, 'index.html')
+    if request.user.is_authenticated:
+        return render(request, 'index.html')
+  
+    return render(request, 'login.html')
 
-    
+@login_required(login_url='login')   
 def editprofile(request):
     return render(request, 'editprofile.html')
-
+ 
 
 def changepassword(request):
     return render(request, 'changepassword.html')

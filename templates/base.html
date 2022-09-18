@@ -110,7 +110,6 @@
 
 
     <!-- Navbar Start -->
-
     <div class="container-fluid p-0">
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-2 py-lg-0 px-lg-5">
             <a href="index.html" class="navbar-brand d-block d-lg-none">
@@ -119,9 +118,11 @@
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            
+        {% if user.is_authenticated or user.is_superuser %}
             <div class="collapse navbar-collapse justify-content-between px-0 px-lg-3" id="navbarCollapse">
                 <div class="navbar-nav mr-auto py-0">
-                    {% if user.is_authenticated and user.is_superuser %}
+                   
                     <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
                     <a href="category.html" class="nav-item nav-link">user details</a>
                     <a href="single.html" class="nav-item nav-link">deleted user</a>
@@ -129,7 +130,7 @@
                     <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
                     <a href="category.html" class="nav-item nav-link">category</a>
                     <a href="single.html" class="nav-item nav-link">Single News</a>
-                    {% endif %}
+                   
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Dropdown</a>
                         <div class="dropdown-menu rounded-0 m-0">
@@ -148,8 +149,10 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
         </nav>
     </div>
+  
 
     <!-- Navbar End -->
 
