@@ -34,14 +34,14 @@ def signup(request):
                 messages.error(request, "Contact number should only contain numbers")
                 return redirect('signup')
             if User.objects.filter(username=username).exists():
-                messages.error(request,'username is already exist')
+                messages.warning(request,'username is already exist')
                 return redirect('signup')
             elif User.objects.filter(email=email).exists():
-                messages.error(request,'email is already exist')
+                messages.warning(request,'email is already exist')
                 return redirect('signup')
             else:                                              #user creation
                 user=User.objects.create_user(username=username,email=email,password=password)
- 
+                messages.success(request,'your account success fully created')
                 return redirect('userlogin')         
         else:
             messages.error(request,'password not matching')
@@ -134,23 +134,20 @@ def editauth(request):
         return render(request,'userpro.html', context)
     return render(request,'editprofile.html', context)
 
-def changepassword(request):
-    return render(request, 'changepassword.html')
-
-
     
 def changepassword(request):
-    data=u_dp.objects.all()
+    # data=u_dp.objects.all()
     
-    try:
-        data=u_dp.objects.get(userdt__id=request.user.id)
+    # try:
+    #     data=u_dp.objects.get(userdt__id=request.user.id)
      
-    except u_dp.DoesNotExist:
-        user = None
-    context={'data':data}
+    # except u_dp.DoesNotExist:
+    #     user = None
+    # context={'data':data}
   
-    return render(request,'changepassword.html', context )
- 
+    return render(request,'changepassword.html' )    
+
+
 @login_required(login_url='login')
 def changepasswordauth(request):
     if request.method=="POST":
@@ -164,15 +161,19 @@ def changepasswordauth(request):
             if newpassword==newpassword2:
                 user.set_password(newpassword)
                 user.save()
-              #messages.info(request,'password changed successfully')
-                print('password changed')
-                return redirect('user_login')
-            else:
-             #   messages.info(request,'password not matching')
-                print('password22 not matching')
-                return render(request,'changepassword.html')
+                auth.logout(request)
+                #request.session.flush()
+        
+                #messages.info(request,'password changed successfully')
+                messages.success(request,'password changed')
+                return redirect(userlogin)
+            elif newpassword!=newpassword2:
+                #   messages.info(request,'password not matching')
+                messages.warning(request,'password not matching')
+                return redirect('changepasswordauth')
         else:
             # messages.info(request,'old password not matching')
-             return render(request,'changepassword.html')
-    else:
-        return render(request,'changepassword.html')
+            messages.error(request,'old password not matching')
+            return render(request,'changepassword.html')
+    
+    return render(request,'changepassword.html')

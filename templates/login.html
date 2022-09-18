@@ -16,13 +16,13 @@
 			<form class="form-container" action="{% url 'userlogin' %}" method="post">
 		    	{% csrf_token %}	
 				{% for message in messages %}
-    
-				<div class="alert alert-danger">
-					<a class="close" href="#" data-dismiss="alert"></a>
-					   {{ message }}
+				<div class="alert {{ message.tags }} alert-dismissible" role="alert">
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				  </button>
+				  {{ message }}
 				</div>
-			
-				{% endfor %}
+			  {% endfor %}
 			<div class="form-group">
 			  <h4 class="text-center font-weight-bold">LOGIN</h4>
 			  <label for="InputEmail1">User name</label>
