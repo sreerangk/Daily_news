@@ -231,5 +231,18 @@ def deleteuser(request,pk):
     if request.user.is_superuser:
         user=User.objects.get(id=pk)
         user.delete()
+        messages.success(request, 'Delete user sucessfully')
         return redirect('edit_user')
     return render(request, 'edit_user.html')
+
+def edituser(request,pk):
+    if request.user.is_superuser:
+        user=User.objects.get(id=pk)
+        
+        
+        return redirect('edit_user')
+    return render(request, 'edit_user.html')
+def adminedit(request):
+    return render(request, 'adminedit')
+
+    

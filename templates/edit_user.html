@@ -10,7 +10,15 @@
                 <li class="breadcrumb-item active">User</li>
             </ol>
             <div class="card mb-4">
-                <div class="card-body">                                .
+                <div class="card-body"> 
+                    {% for message in messages %}
+                    <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      {{ message }}
+                    </div>
+                  {% endfor %}
                 </div>
             </div>
             <div class="card mb-4">
@@ -50,7 +58,7 @@
                                 <td><a class="btn btn-primary" href="">unblock</a></td>
                                 {% endif %}
                                 <td><a class="btn btn-primary" href="">edit</a></td>
-                                <td><a class="btn btn-danger" href="{% url 'deleteuser' %}">Delete</a></td>
+                                <td><a class="btn btn-danger" href="{% url 'deleteuser' x.id %}">Delete</a></td>
 
                             </tr>                
                             {% endfor %}  

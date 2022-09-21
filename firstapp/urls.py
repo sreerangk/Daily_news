@@ -11,10 +11,10 @@ urlpatterns = [
     path('changepassword', views.changepassword, name='changepassword'),
     path('userlogin', views.userlogin, name='userlogin'),
     path('user_logout', views.user_logout, name='user_logout'),
- 
     path('userpro', views.userpro, name='userpro'),
     path('editauth',views.editauth, name='editauth'),
     path('edit_user',views.edit_user,name='edit_user'),
     path('changepasswordauth',views.changepasswordauth, name='changepasswordauth'),
     path('deleteuser/<int:pk>',views.deleteuser, name='deleteuser'),
+    path('adminedit',views.adminedit, name='adminedit')
 ]
