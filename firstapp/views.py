@@ -80,8 +80,16 @@ def user_logout(request):
 
 def index(request):
     if request.user.is_authenticated:
-        return render(request, 'index.html')
-  
+        data=u_dp.objects.all()
+
+        try:
+            data=u_dp.objects.get(userdt__id=request.user.id)
+        
+        except u_dp.DoesNotExist:
+            user = None
+        context={'data':data}
+        return render(request, 'index.html',context)
+    
     return render(request, 'login.html')
 
 @login_required(login_url='login')   
@@ -99,14 +107,13 @@ def editprofile(request):
    
 def userpro(request):
     data=u_dp.objects.all()
-    context={}
     
     try:
         data=u_dp.objects.get(userdt__id=request.user.id)
      
     except u_dp.DoesNotExist:
         user = None
-        context={'data':data,}
+    context={'data':data}
     return render(request, 'userpro.html',context)
 
 
@@ -148,8 +155,7 @@ def editauth(request):
             data.dp=request.FILES['pic']
             data.save()
         else:
-            print("no pic")
-       
+           pass
         messages.success(request, 'profile updates successfully')
         return render(request,'userpro.html', context)
     messages.erorr(request, 'please provide valid data')
@@ -157,16 +163,16 @@ def editauth(request):
 
     
 def changepassword(request):
-    # data=u_dp.objects.all()
+    data=u_dp.objects.all()
     
-    # try:
-    #     data=u_dp.objects.get(userdt__id=request.user.id)
+    try:
+        data=u_dp.objects.get(userdt__id=request.user.id)
      
-    # except u_dp.DoesNotExist:
-    #     user = None
-    # context={'data':data}
+    except u_dp.DoesNotExist:
+        user = None
+    context={'data':data}
   
-    return render(request,'changepassword.html' )    
+    return render(request,'changepassword.html',context)    
 
 
 @login_required(login_url='login')

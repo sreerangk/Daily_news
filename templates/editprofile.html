@@ -8,12 +8,7 @@
 
             <form action="{% url 'editauth' %}" method="POST" enctype="multipart/form-data" class="p-3 ">
                 {% csrf_token %}
-                {% if msg %}
-                <div class="alert alert-success w-50 my-2 text-center">
-                    <strong>{{ msg }}</strong>
-                </div>
 
-                {% endif %}
                 {% for message in messages %}
                 <div class="alert {{ message.tags }} alert-dismissible" role="alert">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
