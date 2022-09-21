@@ -96,7 +96,7 @@
                
                 {% if data.dp %} 
                
-                <a href=""><img src="{{ data.dp.url }}"  class="mr-3 rounded-circle"  style="height:40px; width:40px" alt="dp"></a>
+                <a href="{% url 'userpro' %}"><img src="{{ data.dp.url }}"  class="mr-3 rounded-circle"  style="height:40px; width:40px" alt="dp"></a>
                   
                 {% else %}
                 <a href="{% url 'userpro' %}"><img src="{% static 'img\O.jpg' %}"  class="mr-3 rounded-circle" height="60" width="60" alt="dp"></a>

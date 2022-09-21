@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from firstapp.forms import AddressForm
+from multiprocessing import context
 from django.contrib.auth.models import User,auth
 from django.contrib.auth import authenticate,login ,logout
 from django.contrib import messages
@@ -27,13 +27,13 @@ def signup(request):
                 messages.error(request, " Your user name must minimum 6 characters")
                 return redirect('signup')
 
-            if not username.isalnum():
+            elif not username.isalnum():
                 messages.error(request, " User name should only contain letters and numbers")
                 return redirect('signup')
-            if not mob.isdigit():
+            elif not mob.isdigit():
                 messages.error(request, "Contact number should only contain numbers")
                 return redirect('signup')
-            if User.objects.filter(username=username).exists():
+            elif User.objects.filter(username=username).exists():
                 messages.warning(request,'username is already exist')
                 return redirect('signup')
             elif User.objects.filter(email=email).exists():
@@ -41,7 +41,10 @@ def signup(request):
                 return redirect('signup')
             else:                                              #user creation
                 user=User.objects.create_user(username=username,email=email,password=password)
-                messages.success(request,'your account success fully created')
+                messages.success(request,'your account successfully created')
+                mo=u_dp(userdt=user,contact_no=mob)
+                mo.save()
+                user.save()
                 return redirect('userlogin')         
         else:
             messages.error(request,'password not matching')
@@ -96,6 +99,7 @@ def editprofile(request):
    
 def userpro(request):
     data=u_dp.objects.all()
+    context={}
     
     try:
         data=u_dp.objects.get(userdt__id=request.user.id)
@@ -111,7 +115,7 @@ def editauth(request):
     data=u_dp.objects.get(userdt__id=request.user.id)
     context={}
     context['data']=data
-    if request.method=="POST":
+    if request.method=='POST':
         na=request.POST['name']
         em=request.POST['email']
         mo=request.POST['mob']
@@ -165,7 +169,7 @@ def changepasswordauth(request):
                 #request.session.flush()
         
                 #messages.info(request,'password changed successfully')
-                messages.success(request,'password changed')
+                messages.success(request,'password changed please login agin')
                 return redirect(userlogin)
             elif newpassword!=newpassword2:
                 #   messages.info(request,'password not matching')
