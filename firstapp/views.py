@@ -121,6 +121,21 @@ def editauth(request):
         mo=request.POST['mob']
         ci=request.POST['city']
         ad=request.POST['address']
+        if len(na)< 6:
+            messages.error(request, " Your user name must minimum 6 characters")
+            return redirect('editprofile')
+
+        elif not na.isalnum():
+            messages.error(request, " User name should only contain letters and numbers")
+            return redirect('editprofile')
+        elif not mo.isdigit():
+            messages.error(request, "Contact number should only contain numbers")
+            return redirect('editprofile')
+        
+        
+        elif not mo.isdigit():
+            messages.error(request, "Contact number should only contain numbers")
+            return redirect('editprofile')
         us=User.objects.get(id=request.user.id)
         us.username=na
         us.email=em
@@ -137,6 +152,7 @@ def editauth(request):
        
         messages.success(request, 'profile updates successfully')
         return render(request,'userpro.html', context)
+    messages.erorr(request, 'please provide valid data')
     return render(request,'editprofile.html', context)
 
     
