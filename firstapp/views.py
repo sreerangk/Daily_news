@@ -242,7 +242,7 @@ def edituser(request,pk):
         
         return redirect('edit_user')
     return render(request, 'edit_user.html')
-def adminedit(request):
-    return render(request, 'adminedit')
+def edituser_single(request):
+    return render(request, 'edituser_single.html')
 
     

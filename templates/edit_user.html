@@ -57,7 +57,7 @@
                                 {% else %}
                                 <td><a class="btn btn-primary" href="">unblock</a></td>
                                 {% endif %}
-                                <td><a class="btn btn-primary" href="">edit</a></td>
+                                <td><a class="btn btn-primary" href="{% url 'edituser_single' x.id %}">edit</a></td>
                                 <td><a class="btn btn-danger" href="{% url 'deleteuser' x.id %}">Delete</a></td>
 
                             </tr>                
