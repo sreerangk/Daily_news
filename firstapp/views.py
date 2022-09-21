@@ -134,7 +134,8 @@ def editauth(request):
             data.save()
         else:
             print("no pic")
-        context['msg']="updated"
+       
+        messages.success(request, 'profile updates successfully')
         return render(request,'userpro.html', context)
     return render(request,'editprofile.html', context)
 

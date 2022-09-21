@@ -13,7 +13,7 @@
                     {% if data.dp %}
 
                     <a href="{% url 'userpro' %}"><img src="{{ data.dp.url }}" class="mr-3 rounded-circle"
-                        height="20" width="20" alt="dp"></a>
+                       style="height: 56px;width: 56px;" alt="dp"></a>
 
                     {% else %}
                     <a href="{% url 'userpro' %}"><img src="{% static 'img\O.jpg' %}" class="mr-3 rounded-circle"
@@ -24,6 +24,14 @@
 
                 </div>
                 <div class="card-body">
+                    {% for message in messages %}
+                    <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      {{ message }}
+                    </div>
+                  {% endfor %}
                     <table class="table table-bordered">
                         <tbody>
                             <tr>
