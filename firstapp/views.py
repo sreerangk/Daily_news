@@ -106,15 +106,16 @@ def editprofile(request):
 
    
 def userpro(request):
-    data=u_dp.objects.all()
-    
-    try:
-        data=u_dp.objects.get(userdt__id=request.user.id)
-     
-    except u_dp.DoesNotExist:
-        user = None
-    context={'data':data}
-    return render(request, 'userpro.html',context)
+    if request.user.is_authenticated:
+        data=u_dp.objects.all()
+        
+        try:
+            data=u_dp.objects.get(userdt__id=request.user.id)
+        
+        except u_dp.DoesNotExist:
+            user = None
+        context={'data':data}
+        return render(request, 'userpro.html',context)
 
 
 @login_required(login_url='login')
@@ -163,16 +164,17 @@ def editauth(request):
 
     
 def changepassword(request):
-    data=u_dp.objects.all()
+    if request.user.is_authenticated:
+        data=u_dp.objects.all()
+        
+        try:
+            data=u_dp.objects.get(userdt__id=request.user.id)
+        
+        except u_dp.DoesNotExist:
+            user = None
+        context={'data':data}
     
-    try:
-        data=u_dp.objects.get(userdt__id=request.user.id)
-     
-    except u_dp.DoesNotExist:
-        user = None
-    context={'data':data}
-  
-    return render(request,'changepassword.html',context)    
+        return render(request,'changepassword.html',context)    
 
 
 @login_required(login_url='login')
@@ -207,4 +209,27 @@ def changepasswordauth(request):
 
 
 def edit_user(request):
+    if request.user.is_superuser:
+        data=u_dp.objects.all()
+
+        try:
+            data=u_dp.objects.get(userdt__id=request.user.id)
+        
+        except u_dp.DoesNotExist:
+            user = None
+        context={'data':data}
+    
+        users=User.objects.all()
+        
+        context={'users':users}
+       
+        return render(request, 'edit_user.html',context)
+
+    return render(request, 'login.html')
+
+def deleteuser(request,pk):
+    if request.user.is_superuser:
+        user=User.objects.get(id=pk)
+        user.delete()
+        return redirect('edit_user')
     return render(request, 'edit_user.html')

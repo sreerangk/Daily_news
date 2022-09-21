@@ -6,7 +6,7 @@
         <div class="container-fluid px-4">
             <h1 class="mt-4">User</h1>
             <ol class="breadcrumb mb-4">
-                <li class="breadcrumb-item"><a href="{% url 'admin_home' %}">HomePage</a></li>
+                <li class="breadcrumb-item"><a href="">HomePage</a></li>
                 <li class="breadcrumb-item active">User</li>
             </ol>
             <div class="card mb-4">
@@ -24,26 +24,33 @@
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" scope="col">ID</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" scope="col">Username</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" scope="col">First Name</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" scope="col">Last Name</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" scope="col">Email</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" scope="col">Date of join</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" scope="col">Date of last login</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" scope="col">Is admin</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" scope="col">block</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" scope="col">edit</th>
+                                <th class="text-uppercase text-danger text-xxs font-weight-bolder opacity-7" scope="col">Delete</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" scope="col">unblock</th>
                             </tr>
                         </thead> 
                         <tbody>
-                            {% for x in user %}
+                            {% for x in users %}
                             <tr>
 
                                 <th>{{x.id}}</th>
                                 <td>{{x.username}}</td>
-                                <td>{{x.first_name}}</td>
-                                <td>{{x.last_name}}</td>
-                                <td>{{x.email}}</td> 
+                                <td>{{x.email}}</td>
+                                <td>{{x.date_joined}}</td>
+                                <td>{{x.last_login}}</td> 
+                                <td>{{x.is_superuser}}</td> 
                                 {% if x.is_active %}
-                                <td><a class="btn btn-primary" href="{% url 'blockuser' x.id %}">block</a></td>
+                                <td><a class="btn btn-primary" href="">block</a></td>
                                 {% else %}
-                                <td><a class="btn btn-primary" href="{% url 'unblock'  x.id %}">unblock</a></td>
+                                <td><a class="btn btn-primary" href="">unblock</a></td>
                                 {% endif %}
-                                <td><a class="btn btn-primary" href="{% url 'deleteuser' x.id %}">Delete</a></td>
+                                <td><a class="btn btn-primary" href="">edit</a></td>
+                                <td><a class="btn btn-danger" href="{% url 'deleteuser' %}">Delete</a></td>
 
                             </tr>                
                             {% endfor %}  

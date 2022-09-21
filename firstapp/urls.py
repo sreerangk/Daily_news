@@ -16,4 +16,5 @@ urlpatterns = [
     path('editauth',views.editauth, name='editauth'),
     path('edit_user',views.edit_user,name='edit_user'),
     path('changepasswordauth',views.changepasswordauth, name='changepasswordauth'),
+    path('deleteuser/<int:pk>',views.deleteuser, name='deleteuser'),
 ]
