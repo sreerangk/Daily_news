@@ -248,31 +248,54 @@ def edituser(request,pk):
     return render(request, 'edit_user.html')
 
 
-# @login_required(login_url='login')   
-# def edituser_single(request):
-#     data=u_dp.objects.all()
-    
-#     try:
-#         data=u_dp.objects.get(userdt__id=request.user.id)
-     
-#     except u_dp.DoesNotExist:
-#         user = None
-#     context={'data':data}
-#     return render(request, 'edituser_single.html',context)
+  
+def edituser_single(request,pk):
+    if request.user.is_superuser:
+        us=User.objects.get(id=pk)
+        data=u_dp.objects.get(userdt__id=pk)
+        context={'us':us}
+        context['data']=data
+        if request.method=='POST':
+            na=request.POST['name']
+            em=request.POST['email']
+            mo=request.POST['mob']
+            ci=request.POST['city']
+            ad=request.POST['address']
+            
+            if len(na)< 6:
+                messages.error(request, " Your user name must minimum 6 characters")
+                return render(request,'edituser_single.html', context)
+            elif not na.isalnum():
+                messages.error(request, " User name should only contain letters and numbers")
+                return render(request,'edituser_single.html', context)
+            elif not mo.isdigit():
+                messages.error(request, "Contact number should only contain numbers")
+                return render(request,'edituser_single.html', context)
+            
+            
+            elif not mo.isdigit():
+                messages.error(request, "Contact number should only contain numbers")
+                return render(request,'edituser_single.html', context)
+            
+            us.username=na
+            us.email=em
+            us.save()
+            data.Address=ad
+            data.contact_no=mo
+            data.city=ci
+            data.save()
+            if "pic" in request.FILES:
+                data.dp=request.FILES['pic']
+                data.save()
+            else:
+                pass
+            messages.success(request, 'profile updates successfully')
+            return render(request,'edituser_single.html', context)
+        
+        return render(request,'edituser_single.html', context)
+    return render(request, 'edit_user.html',context)
 
 
-
-# @login_required(login_url='login')
-# def updateuser(request,pk):
-#     if request.user.is_superuser:
-#         us=User.objects.get(id=pk)
-#         data=u_dp.objects.get()
-#         context={'us':us}
-
-#         messages.success(request, 'profile updates successfully')
-
-#         return redirect('updateuser')
-#     return render(request, 'edituser_single.html',context)
 
 def blockuser(request,id):
     user = User.objects.get(id=id)

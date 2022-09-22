@@ -9,7 +9,7 @@
       <div class="card" style="border-radius: 15px;">
         <div class="card-body p-5">
           <h2 class="text-uppercase text-center mb-5">EDIT ACCOUNT</h2>
-            <form action="{% url 'updateuser' %}" method="POST" enctype="multipart/form-data" class="p-3 ">
+            <form action="" method="POST" enctype="multipart/form-data" class="p-3 ">
                 {% csrf_token %}
 
                 {% for message in messages %}
@@ -36,17 +36,19 @@
 
                       <br>
                     <label>City</label>
-                    <input type="text" class="form-control" name="city" value="{{da.city}}">
+                    <input type="text" class="form-control" name="city" value="{{data.city}}">
                       <br>
 
                     <label>Address</label>
-                    <input type="text" class="form-control" name="address" value="{{da.Address}}">
+                    <input type="text" class="form-control" name="address" value="{{data.Address}}">
 
                     <br>
-
-           
-                    <input type="submit" class="btn btn-dark mt-2 " value="Save changes">
-
+                    <label>Profile-Pic</label>
+                    <input type="file" class="form-control" name="pic">
+                      <br>
+                  
+                    <input href="" type="submit" class="btn btn-dark mt-2 " value="Save changes">
+                
                 </div>
 
             </form>
