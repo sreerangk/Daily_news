@@ -89,6 +89,8 @@ def index(request):
         except u_dp.DoesNotExist:
             user = None
         context={'data':data}
+        
+        
         return render(request, 'index.html',context)
     
     return render(request, 'login.html')
