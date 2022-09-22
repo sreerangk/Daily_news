@@ -228,7 +228,7 @@ def edit_user(request):
         context={'users':users}
        
         return render(request, 'edit_user.html',context)
-
+    auth.logout(request)
     return render(request, 'login.html')
 
 def deleteuser(request,pk):
@@ -287,6 +287,7 @@ def edituser_single(request,pk):
             return render(request,'edituser_single.html', context)
         
         return render(request,'edituser_single.html', context)
+    
     return render(request, 'edit_user.html',context)
 
 
@@ -308,42 +309,45 @@ def unblock(request,id):
      
      
 def adduser(request):
-    if request.method=="POST":
-        #username=request.POST.get('username')
-        username=request.POST['name']
-        email=request.POST['email']
-        password=request.POST['pass1']
-        password2=request.POST['rpass']
-        mob=request.POST['mob']
-        if password==password2:
-        
-            if len(username)< 6:
-                messages.error(request, " Your user name must minimum 6 characters")
-                return redirect('adduser')
+    if request.user.is_superuser:
+        if request.method=="POST":
+            #username=request.POST.get('username')
+            username=request.POST['name']
+            email=request.POST['email']
+            password=request.POST['pass1']
+            password2=request.POST['rpass']
+            mob=request.POST['mob']
+            if password==password2:
+            
+                if len(username)< 6:
+                    messages.error(request, " Your user name must minimum 6 characters")
+                    return redirect('adduser')
 
-            elif not username.isalnum():
-                messages.error(request, " User name should only contain letters and numbers")
+                elif not username.isalnum():
+                    messages.error(request, " User name should only contain letters and numbers")
+                    return redirect('adduser')
+                elif not mob.isdigit():
+                    messages.error(request, "Contact number should only contain numbers")
+                    return redirect('adduser')
+                elif User.objects.filter(username=username).exists():
+                    messages.warning(request,'username is already exist')
+                    return redirect('adduser')
+                elif User.objects.filter(email=email).exists():
+                    messages.warning(request,'email is already exist')
+                    return redirect('adduser')
+                else:                                              #user creation
+                    user=User.objects.create_user(username=username,email=email,password=password)
+                    messages.success(request,'your account successfully created')
+                    mo=u_dp(userdt=user,contact_no=mob)
+                    mo.save()
+                    user.save()
+                    return redirect('adduser')         
+            else:
+                messages.error(request,'password not matching')
                 return redirect('adduser')
-            elif not mob.isdigit():
-                messages.error(request, "Contact number should only contain numbers")
-                return redirect('adduser')
-            elif User.objects.filter(username=username).exists():
-                messages.warning(request,'username is already exist')
-                return redirect('adduser')
-            elif User.objects.filter(email=email).exists():
-                messages.warning(request,'email is already exist')
-                return redirect('adduser')
-            else:                                              #user creation
-                user=User.objects.create_user(username=username,email=email,password=password)
-                messages.success(request,'your account successfully created')
-                mo=u_dp(userdt=user,contact_no=mob)
-                mo.save()
-                user.save()
-                return redirect('adduser')         
         else:
-            messages.error(request,'password not matching')
-            return redirect('adduser')
-    else:
 
-        return render(request, 'adduser.html')
-    return render(request, 'index.html')
+            return render(request, 'adduser.html')
+    auth.logout(request)     
+        
+    return render(request, 'login.html')
