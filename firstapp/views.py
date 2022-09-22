@@ -274,11 +274,11 @@ def edituser(request,pk):
 #         return redirect('updateuser')
 #     return render(request, 'edituser_single.html',context)
 
-# def blockuser(request,id):
-#     user = User.objects.get(id=id)
-#     user.is_active = False
-#     user.save()
-#     return redirect('edit_user')
+def blockuser(request,id):
+    user = User.objects.get(id=id)
+    user.is_active = False
+    user.save()
+    return redirect('edit_user')
 
 
 def unblock(request,id):
