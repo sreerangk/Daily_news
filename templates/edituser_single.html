@@ -9,7 +9,7 @@
       <div class="card" style="border-radius: 15px;">
         <div class="card-body p-5">
           <h2 class="text-uppercase text-center mb-5">EDIT ACCOUNT</h2>
-            <form action="{% url 'editauth' %}" method="POST" enctype="multipart/form-data" class="p-3 ">
+            <form action="{% url 'updateuser' %}" method="POST" enctype="multipart/form-data" class="p-3 ">
                 {% csrf_token %}
 
                 {% for message in messages %}
@@ -23,11 +23,11 @@
                 <div class="form-group ">
 
                     <label><b>Name<b></label>
-                    <input type="text" class="form-control" name="name" value="{{user.username}}">
+                    <input type="text" class="form-control" name="name" value="{{us.username}}">
                       <br>
 
                     <label>Email</label>
-                    <input type="email" class="form-control" name="email" value="{{user.email}}">
+                    <input type="email" class="form-control" name="email" value="{{us.email}}">
 
                       <br>
 
@@ -36,17 +36,15 @@
 
                       <br>
                     <label>City</label>
-                    <input type="text" class="form-control" name="city" value="{{data.city}}">
+                    <input type="text" class="form-control" name="city" value="{{da.city}}">
                       <br>
 
                     <label>Address</label>
-                    <input type="text" class="form-control" name="address" value="{{data.Address}}">
+                    <input type="text" class="form-control" name="address" value="{{da.Address}}">
 
                     <br>
 
-                    <label>Profile-Pic</label>
-                    <input type="file" class="form-control" name="pic">
-                      <br>
+           
                     <input type="submit" class="btn btn-dark mt-2 " value="Save changes">
 
                 </div>

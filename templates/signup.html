@@ -11,7 +11,7 @@
         <div class="card-body p-5">
           <h2 class="text-uppercase text-center mb-5">Create an account</h2>
 
-          <form action="{% url 'signup' %}" method="post" class="p-3 ">
+          <form action="{% url 'signup' %}" method="post" class="p-2 ">
             {% csrf_token %}
             {% for message in messages %}
     
@@ -24,7 +24,7 @@
             
             <div class="form-group ">
               
-              <label>Name</label>
+              <label><b>Name</label>
               <input type="text" class="form-control" name="name"required>
              
            

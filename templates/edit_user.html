@@ -5,10 +5,7 @@
     <main>
         <div class="container-fluid px-4">
             <h1 class="mt-4">User</h1>
-            <ol class="breadcrumb mb-4">
-                <li class="breadcrumb-item"><a href="">HomePage</a></li>
-                <li class="breadcrumb-item active">User</li>
-            </ol>
+
             <div class="card mb-4">
                 <div class="card-body"> 
                     {% for message in messages %}
@@ -36,14 +33,14 @@
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" scope="col">Date of join</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" scope="col">Date of last login</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" scope="col">Is admin</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" scope="col">block</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" scope="col">edit</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" scope="col">delete</th>
                                 <th class="text-uppercase text-danger text-xxs font-weight-bolder opacity-7" scope="col">Delete</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" scope="col">unblock</th>
+                                
                             </tr>
                         </thead> 
                         <tbody>
-                            {% for x in users %}
+                            {% for x in users  %}
                             <tr>
 
                                 <th>{{x.id}}</th>
@@ -53,11 +50,11 @@
                                 <td>{{x.last_login}}</td> 
                                 <td>{{x.is_superuser}}</td> 
                                 {% if x.is_active %}
-                                <td><a class="btn btn-primary" href="">block</a></td>
+                                <td><a class="btn btn-primary" href="{% url 'blockuser' x.id %}">block</a></td>
                                 {% else %}
-                                <td><a class="btn btn-primary" href="">unblock</a></td>
+                                <td><a class="btn btn-primary" href="{% url 'unblock' x.id %}">unblock</a></td>
                                 {% endif %}
-                                <td><a class="btn btn-primary" href="{% url 'edituser_single' x.id %}">edit</a></td>
+                                <td><a class="btn btn-primary" href="{% url 'edituser_single'  %}">edit</a></td>
                                 <td><a class="btn btn-danger" href="{% url 'deleteuser' x.id %}">Delete</a></td>
 
                             </tr>                
@@ -68,18 +65,7 @@
             </div>
         </div>
     </main>
-    <footer class="py-4 bg-light mt-auto">
-        <div class="container-fluid px-4">
-            <div class="d-flex align-items-center justify-content-between small">
-                <div class="text-muted">Copyright &copy; Your Website 2022</div>
-                <div>
-                    <a href="#">Privacy Policy</a>
-                    &middot;
-                    <a href="#">Terms &amp; Conditions</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+
 </div>
 </div>
 {% endblock %}

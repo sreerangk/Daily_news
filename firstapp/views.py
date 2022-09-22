@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate,login ,logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import u_dp
+from django.db.models import Q
 
 # Create your views here.
 
@@ -207,6 +208,9 @@ def changepasswordauth(request):
     
     return render(request,'changepassword.html')
 
+# __________________________admin edit _______________________________
+
+
 
 def edit_user(request):
     if request.user.is_superuser:
@@ -242,7 +246,44 @@ def edituser(request,pk):
         
         return redirect('edit_user')
     return render(request, 'edit_user.html')
-def edituser_single(request):
-    return render(request, 'edituser_single.html')
 
+
+# @login_required(login_url='login')   
+# def edituser_single(request):
+#     data=u_dp.objects.all()
     
+#     try:
+#         data=u_dp.objects.get(userdt__id=request.user.id)
+     
+#     except u_dp.DoesNotExist:
+#         user = None
+#     context={'data':data}
+#     return render(request, 'edituser_single.html',context)
+
+
+
+# @login_required(login_url='login')
+# def updateuser(request,pk):
+#     if request.user.is_superuser:
+#         us=User.objects.get(id=pk)
+#         data=u_dp.objects.get()
+#         context={'us':us}
+
+#         messages.success(request, 'profile updates successfully')
+
+#         return redirect('updateuser')
+#     return render(request, 'edituser_single.html',context)
+
+# def blockuser(request,id):
+#     user = User.objects.get(id=id)
+#     user.is_active = False
+#     user.save()
+#     return redirect('edit_user')
+
+
+def unblock(request,id):
+    user = User.objects.get(id=id)
+    user.is_active = True
+    user.save()
+    return redirect('edit_user')
+     
