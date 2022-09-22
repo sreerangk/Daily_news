@@ -13,13 +13,14 @@
 
           <form action="{% url 'signup' %}" method="post" class="p-2 ">
             {% csrf_token %}
+
             {% for message in messages %}
-    
-            <div class="alert alert-danger">
-                <a class="close" href="#" data-dismiss="alert"></a>
-                   {{ message }}
+            <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              {{ message }}
             </div>
-        
             {% endfor %}
             
             <div class="form-group ">
