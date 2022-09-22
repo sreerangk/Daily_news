@@ -126,7 +126,7 @@
                     {% if user.is_authenticated and  user.is_superuser %}
                     <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
                     <a href="{% url 'edit_user' %}" class="nav-item nav-link">user details</a>
-                    <a href="single.html" class="nav-item nav-link">add user</a>
+                    <a href="{% url 'adduser' %}" class="nav-item nav-link">add user</a>
                     {% elif user.is_authenticated %}
                     <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
                     <a href="{% url 'changepassword' %}" class="nav-item nav-link">changepassword</a>

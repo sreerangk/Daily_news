@@ -239,13 +239,7 @@ def deleteuser(request,pk):
         return redirect('edit_user')
     return render(request, 'edit_user.html')
 
-def edituser(request,pk):
-    if request.user.is_superuser:
-        user=User.objects.get(id=pk)
-        
-        
-        return redirect('edit_user')
-    return render(request, 'edit_user.html')
+
 
 
   
@@ -310,3 +304,8 @@ def unblock(request,id):
     user.save()
     return redirect('edit_user')
      
+     
+     
+     
+def adduser(request):
+    return render(request, 'adduser.html')

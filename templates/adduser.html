@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+<div class="container py-5">
+  <div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+      <div class="card" style="border-radius: 15px;">
+        <div class="card-body p-5">
+          <h2 class="text-uppercase text-center mb-5">Add new user</h2>
+
+          <form action="" method="post" class="p-2 ">
+            {% csrf_token %}
+            {% for message in messages %}
+    
+            <div class="alert alert-danger">
+                <a class="close" href="#" data-dismiss="alert"></a>
+                   {{ message }}
+            </div>
+        
+            {% endfor %}
+            
+            <div class="form-group ">
+              
+              <label><b>Name</label>
+              <input type="text" class="form-control" name="name"required>
+             
+           
+
+              <label>Email</label>
+              <input type="email" class="form-control" name="email" required>
+
+
+
+              <label>Contact No</label>
+              <input type="tel" class="form-control" name="mob" required >
+
+
+              <label>password</label>
+              <input type="password" class="form-control" name="pass1" required>
+
+
+              <label>password2</label>
+              <input type="password" class="form-control" name="rpass" required>
+
+              <input type="submit" class="btn btn-dark mt-2 " value="Save" required>
+
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+{% endblock %}

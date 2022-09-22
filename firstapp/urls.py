@@ -18,8 +18,9 @@ urlpatterns = [
     path('deleteuser/<int:pk>',views.deleteuser, name='deleteuser'),
    
     path('edituser_single/<int:pk>',views.edituser_single, name='edituser_single'),
-    path('edituser/<int:pk>',views.edituser, name='edituser'),
+   
     path('blockuser/<int:id>',views.blockuser,name='blockuser'),
     path('unblock/<int:id>',views.unblock,name='unblock'),
+    path('adduser',views.adduser,name='adduser'),
 
 ]
