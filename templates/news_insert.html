@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content  %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <form action="" method="post" enctype="multipart/form-data"> 
+                {% csrf_token %}
+                {{form|crispy}}
+                <button type="submit" class="btn btn-warning w-100">
+                        ADD PRODUCT
+                </button>
+
+            </form>
+
+        </div>
+
+        <div class="col-8">
+            <table class="table table-bordered table-striped table-primary table-hover ">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Image</th>
+                        <th>Delete</th>
+                        <th>Edit</th>
+                     
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in products %} 
+                    <tr>
+                        <td>{{i.name}}</td>
+                        <td>{{i.discriptiom}}</td>
+                        <td><img src="{{ i.image.url }}"  class="mr-3 rounded-circle"  style="height:50px; width:50px" alt="dp"></td>
+                        <td>
+                         <a class="btn btn-danger btn-lg" href=" {% url 'productdelete' i.id %} ">              
+                            Delete
+                         </a>
+                        </td>
+                        <td>
+                            <a class="btn btn-info btn-lg" href=" {% url 'productedit' i.id %} "> 
+                                <span class="glyphicon glyphicon-edit"></span> Edit 
+                            </a>
+                           </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

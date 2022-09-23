@@ -1,7 +1,7 @@
 from tkinter import CASCADE
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.forms import FilePathField
 # Create your models here.
 class user_tbl(models.Model):
     uname=models.CharField(max_length=200)
@@ -21,3 +21,11 @@ class u_dp(models.Model):
     
     def __str__(self):
         return self.userdt
+    
+
+class news(models.Model):
+    name=models.CharField(max_length=200)
+    discriptiom=models.CharField(max_length=200)
+    image=models.ImageField(upload_to='news_img')
+
+

@@ -4,9 +4,9 @@ from django.contrib.auth.models import User,auth
 from django.contrib.auth import authenticate,login ,logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import u_dp
+from .models import u_dp,news
 from django.db.models import Q
-
+from.forms import newsForm      
 # Create your views here.
 
 def base(request):
@@ -354,20 +354,10 @@ def adduser(request):
     return render(request, 'login.html')
 
 
-# -------------------------------------------------------------------------------------------------------------------------??
+# -------------------------------------------------------searching------------------------------------------------------------------??
 
 
-# def search(request):        
-#     if request.method == "POST": # this will be GET now      
-#         username =  request.GET.get('search',None) # do some research what it does   
-           
-#         if username:
-#             result = u_dp.objects.filter(username__icontains=username) # filter returns a list so you might consider skip except part
-#             return render(request,"search_user.html",{"results":results})
-       
 
-    
-#     return render(request,"search_user.html")
 
 def search_user(request):
     if request.user.is_superuser:
@@ -386,3 +376,19 @@ def search_user(request):
         return render(request,"edit_user.html",context)
     return redirect("/")
     
+# -----------------------------------------product inserting------------------------------------------------------------->
+
+def news_insert(request):
+    products=news.objects.all()
+    if request.method=='POST':
+        form=newsForm(request.POST,request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('news_insert')
+    else:
+        form=newsForm()
+
+        
+    context={'form':form,'products':products }
+    return render(request, "news_insert.html",context)
+
