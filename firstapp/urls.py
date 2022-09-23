@@ -24,6 +24,9 @@ urlpatterns = [
     path('adduser',views.adduser,name='adduser'),
     path('search_user', views.search_user, name='search_user'),
     path('news_insert',views.news_insert,name='news_insert'),
+    path('newsdelete/<int:pk>',views.newsdelete , name='newsdelete'),
+   # path('productdetails/<int:pk>',views.productdetails, name='productdetails'),
+    path('newsedit/<int:pk>',views.newsedit, name='newsedit'),
 
 
 ]
