@@ -66,7 +66,7 @@ def userlogin(request):
         if user is not None:            # means if user is authendicated
             auth.login(request,user)
             return redirect('index')
-
+        
         else:
             messages.error(request,'user name is inccorect')
             return redirect('userlogin')
@@ -375,24 +375,28 @@ def search_user(request):
         }
         
         return render(request,"edit_user.html",context)
-    return redirect("/")
+    auth.logout(request) 
+    return render(request, "login.html")
     
 # -----------------------------------------product inserting------------------------------------------------------------->
 
 def news_insert(request):
-    
-    products=news.objects.all()
-    if request.method=='POST':
-        form=newsForm(request.POST,request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('news_insert')
-    else:
-        form=newsForm()
+    if request.user.is_superuser:
+        products=news.objects.all()
+        if request.method=='POST':
+            form=newsForm(request.POST,request.FILES)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'News Added successfully') 
+                return redirect('news_insert')
+        else:
+            form=newsForm()
 
-    messages.success(request, 'News Added successfully') 
-    context={'form':form,'products':products }
-    return render(request, "news_insert.html",context)
+        
+        context={'form':form,'products':products }
+        return render(request, "news_insert.html",context)
+    auth.logout(request) 
+    return render(request, "login.html")
 
 
 def newsdelete(request,pk):
@@ -401,15 +405,18 @@ def newsdelete(request,pk):
     messages.success(request, 'News Delete successfully')
     return redirect('news_insert' )
 
-def newsedit(request,pk):   
-    products=news.objects.get(id=pk)
-    if request.method=='POST':
-        form=newsForm(request.POST,request.FILES,instance=products)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'News Updated successfully')
-            return redirect('news_insert')
-    else:
-        form=newsForm(instance=products) 
-    context={'form':form}    
-    return render(request,'newsedit.html',context )
+def newsedit(request,pk):  
+    if request.user.is_superuser: 
+        products=news.objects.get(id=pk)
+        if request.method=='POST':
+            form=newsForm(request.POST,request.FILES,instance=products)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'News Updated successfully')
+                return redirect('news_insert')
+        else:
+            form=newsForm(instance=products) 
+        context={'form':form}    
+        return render(request,'newsedit.html',context )
+    auth.logout(request) 
+    return render(request, "login.html")
