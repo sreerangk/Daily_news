@@ -370,14 +370,19 @@ def adduser(request):
 #     return render(request,"search_user.html")
 
 def search_user(request):
+    if request.user.is_superuser:
     
-    if 'q'in request.GET:
-        q=request.GET['q']
-        data = User.objects .filter(username__icontains=q)
-    else:
-        data = User.objects.all()
-    context={
-        'data':data
-    }
+        if 'q'in request.GET:
+            q=request.GET['q']
+            # data = User.objects .filter(username__icontains=q)
+            multiple_q =Q(Q(username__icontains=q) | Q(email__icontains=q))
+            users =  User.objects.filter(multiple_q)
+        else:
+            users = User.objects.all()
+        context={
+            'users':users
+        }
+        
+        return render(request,"edit_user.html",context)
+    return redirect("/")
     
-    return render(request,"search_user.html",context)
