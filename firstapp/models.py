@@ -18,3 +18,6 @@ class u_dp(models.Model):
     addedon=models.DateTimeField(auto_now_add=True)
     updatedon=models.DateTimeField(auto_now=True)
     contact_no=models.IntegerField(null=True,blank=True)
+    
+    def __str__(self):
+        return self.userdt

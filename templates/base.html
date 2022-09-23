@@ -143,13 +143,11 @@
                     <a href="contact.html" class="nav-item nav-link">Contact</a>
                     {% endif %}
                 </div>
-                <div class="input-group ml-auto d-none d-lg-flex" style="width: 100%; max-width: 300px;">
-                    <input type="text" name="q" class="form-control border-0" placeholder="Keyword">
-                    <div class="input-group-append">
-                        <button class="input-group-text bg-primary text-dark border-0 px-3"><i
-                                class="fa fa-search"></i></button>
-                    </div>
-                </div>
+                <form class="form-inline my-2 my-lg-0" action="{% url 'search_user' %}">
+                    <input class="form-control mr-sm-2" type="search"   placeholder="Search" aria-label="Search" name="q">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+
             </div>
 
         </nav>

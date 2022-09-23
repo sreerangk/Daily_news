@@ -22,5 +22,7 @@ urlpatterns = [
     path('blockuser/<int:id>',views.blockuser,name='blockuser'),
     path('unblock/<int:id>',views.unblock,name='unblock'),
     path('adduser',views.adduser,name='adduser'),
+    # path('search', views.search, name='search'),
+    path('search_user', views.search_user, name='search_user'),
 
 ]

@@ -89,8 +89,7 @@ def index(request):
         except u_dp.DoesNotExist:
             user = None
         context={'data':data}
-        
-        
+
         return render(request, 'index.html',context)
     
     return render(request, 'login.html')
@@ -353,3 +352,32 @@ def adduser(request):
     auth.logout(request)     
         
     return render(request, 'login.html')
+
+
+# -------------------------------------------------------------------------------------------------------------------------??
+
+
+# def search(request):        
+#     if request.method == "POST": # this will be GET now      
+#         username =  request.GET.get('search',None) # do some research what it does   
+           
+#         if username:
+#             result = u_dp.objects.filter(username__icontains=username) # filter returns a list so you might consider skip except part
+#             return render(request,"search_user.html",{"results":results})
+       
+
+    
+#     return render(request,"search_user.html")
+
+def search_user(request):
+    
+    if 'q'in request.GET:
+        q=request.GET['q']
+        data = User.objects .filter(username__icontains=q)
+    else:
+        data = User.objects.all()
+    context={
+        'data':data
+    }
+    
+    return render(request,"search_user.html",context)
