@@ -68,7 +68,7 @@ def userlogin(request):
             return redirect('index')
         
         else:
-            messages.error(request,'user name is inccorect')
+            messages.error(request,'user name or password inccorect')
             return redirect('userlogin')
     return render(request, 'login.html')
     
@@ -97,15 +97,18 @@ def index(request):
 
 @login_required(login_url='login')   
 def editprofile(request):
-    data=u_dp.objects.all()
-    
-    try:
-        data=u_dp.objects.get(userdt__id=request.user.id)
-     
-    except u_dp.DoesNotExist:
-        user = None
-    context={'data':data}
-    return render(request, 'editprofile.html',context)
+    if request.user.is_authenticated:
+        data=u_dp.objects.all()
+        
+        try:
+            data=u_dp.objects.get(userdt__id=request.user.id)
+        
+        except u_dp.DoesNotExist:
+            user = None
+        context={'data':data}
+        return render(request, 'editprofile.html',context)
+    auth.logout(request)     
+    return render(request, 'login.html')
 
    
 def userpro(request):
@@ -119,6 +122,8 @@ def userpro(request):
             user = None
         context={'data':data}
         return render(request, 'userpro.html',context)
+    auth.logout(request)     
+    return render(request, 'login.html')
 
 
 @login_required(login_url='login')
@@ -177,38 +182,44 @@ def changepassword(request):
             user = None
         context={'data':data}
     
-        return render(request,'changepassword.html',context)    
+        return render(request,'changepassword.html',context) 
+    auth.logout(request)     
+    return render(request, 'login.html')   
 
 
 @login_required(login_url='login')
 def changepasswordauth(request):
-    if request.method=="POST":
-        oldpassword=request.POST['oldpassword']
-        newpassword=request.POST['newpassword']
-        newpassword2=request.POST['newpassword2']
-        user = User.objects.get(username=request.user)
-        check=user.check_password(oldpassword)
+    if request.user.is_authenticated:
+        if request.method=="POST":
+            oldpassword=request.POST['oldpassword']
+            newpassword=request.POST['newpassword']
+            newpassword2=request.POST['newpassword2']
+            user = User.objects.get(username=request.user)
+            check=user.check_password(oldpassword)
 
-        if check==True:
-            if newpassword==newpassword2:
-                user.set_password(newpassword)
-                user.save()
-                auth.logout(request)
-                #request.session.flush()
+            if check==True:
+                if newpassword==newpassword2:
+                    user.set_password(newpassword)
+                    user.save()
+                    auth.logout(request)
+                    #request.session.flush()
+            
+                    #messages.info(request,'password changed successfully')
+                    messages.success(request,'password changed please login agin')
+                    return redirect(userlogin)
+                elif newpassword!=newpassword2:
+                    #   messages.info(request,'password not matching')
+                    messages.warning(request,'password not matching')
+                    return redirect('changepasswordauth')
+            else:
+                # messages.info(request,'old password not matching')
+                messages.error(request,'old password not matching')
+                return render(request,'changepassword.html')
         
-                #messages.info(request,'password changed successfully')
-                messages.success(request,'password changed please login agin')
-                return redirect(userlogin)
-            elif newpassword!=newpassword2:
-                #   messages.info(request,'password not matching')
-                messages.warning(request,'password not matching')
-                return redirect('changepasswordauth')
-        else:
-            # messages.info(request,'old password not matching')
-            messages.error(request,'old password not matching')
-            return render(request,'changepassword.html')
-    
-    return render(request,'changepassword.html')
+        return render(request,'changepassword.html')
+    auth.logout(request)     
+   
+    return render(request, 'login.html')
 
 # __________________________admin edit _______________________________
 
