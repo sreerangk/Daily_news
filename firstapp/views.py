@@ -24,7 +24,7 @@ def signup(request):
         mob=request.POST['mob']
         if password==password2:
         
-            if len(username)< 6:
+            if len(username)< 2:
                 messages.error(request, " Your user name must minimum 6 characters")
                 return redirect('signup')
 
@@ -34,9 +34,7 @@ def signup(request):
             elif not mob.isdigit():
                 messages.error(request, "Contact number should only contain numbers")
                 return redirect('signup')
-            elif User.objects.filter(username=username).exists():
-                messages.warning(request,'username is already exist')
-                return redirect('signup')
+           
             elif User.objects.filter(email=email).exists():
                 messages.warning(request,'email is already exist')
                 return redirect('signup')
