@@ -181,7 +181,7 @@ def changepassword(request):
         context={'data':data}
     
         return render(request,'changepassword.html',context) 
-    auth.logout(request)     
+    
     return render(request, 'login.html')   
 
 
@@ -215,7 +215,7 @@ def changepasswordauth(request):
                 return render(request,'changepassword.html')
         
         return render(request,'changepassword.html')
-    auth.logout(request)     
+    
    
     return render(request, 'login.html')
 
@@ -267,8 +267,8 @@ def edituser_single(request,pk):
             ci=request.POST['city']
             ad=request.POST['address']
             
-            if len(na)< 6:
-                messages.error(request, " Your user name must minimum 6 characters")
+            if len(na)< 2:
+                messages.error(request, " Your user name must minimum 2 characters")
                 return render(request,'edituser_single.html', context)
             elif not na.isalnum():
                 messages.error(request, " User name should only contain letters and numbers")
@@ -330,8 +330,8 @@ def adduser(request):
             mob=request.POST['mob']
             if password==password2:
             
-                if len(username)< 6:
-                    messages.error(request, " Your user name must minimum 6 characters")
+                if len(username)< 2:
+                    messages.error(request, " Your user name must minimum 2 characters")
                     return redirect('adduser')
 
                 elif not username.isalnum():
@@ -340,9 +340,7 @@ def adduser(request):
                 elif not mob.isdigit():
                     messages.error(request, "Contact number should only contain numbers")
                     return redirect('adduser')
-                elif User.objects.filter(username=username).exists():
-                    messages.warning(request,'username is already exist')
-                    return redirect('adduser')
+                
                 elif User.objects.filter(email=email).exists():
                     messages.warning(request,'email is already exist')
                     return redirect('adduser')
