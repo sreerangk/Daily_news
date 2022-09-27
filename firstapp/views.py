@@ -15,6 +15,8 @@ def base(request):
 
     
 def signup(request):
+    if request.user.is_authenticated:
+        return redirect('/')
     if request.method=="POST":
         #username=request.POST.get('username')
         username=request.POST['name']
@@ -27,7 +29,9 @@ def signup(request):
             if len(username)< 2:
                 messages.error(request, " Your user name must minimum 6 characters")
                 return redirect('signup')
-
+            elif User.objects.filter(username=username).exists():
+                messages.error(request,'User name already exists')
+                return redirect('signup')
             elif not username.isalnum():
                 messages.error(request, " User name should only contain letters and numbers")
                 return redirect('signup')
@@ -93,7 +97,7 @@ def index(request):
     
     return render(request, 'login.html')
 
-@login_required(login_url='login')   
+ 
 def editprofile(request):
     if request.user.is_authenticated:
         data=u_dp.objects.all()
@@ -105,7 +109,7 @@ def editprofile(request):
             user = None
         context={'data':data}
         return render(request, 'editprofile.html',context)
-    auth.logout(request)     
+     
     return render(request, 'login.html')
 
    
@@ -139,7 +143,6 @@ def editauth(request):
             if len(na)< 2:
                 messages.error(request, " Your user name must minimum 2 characters")
                 return redirect('editprofile')
-
             elif not na.isalnum():
                 messages.error(request, " User name should only contain letters and numbers")
                 return redirect('editprofile')
@@ -173,6 +176,8 @@ def editauth(request):
 
     
 def changepassword(request):
+    if request.user.is_superuser:
+        return redirect('/')
     if request.user.is_authenticated:
         data=u_dp.objects.all()
         
@@ -336,7 +341,9 @@ def adduser(request):
                 if len(username)< 2:
                     messages.error(request, " Your user name must minimum 2 characters")
                     return redirect('adduser')
-
+                elif User.objects.filter(username=username).exists():
+                    messages.error(request,'User name already exists')
+                    return redirect('signup')
                 elif not username.isalnum():
                     messages.error(request, " User name should only contain letters and numbers")
                     return redirect('adduser')
