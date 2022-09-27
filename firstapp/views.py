@@ -126,47 +126,50 @@ def userpro(request):
 
 @login_required(login_url='login')
 def editauth(request):
-    data=u_dp.objects.get(userdt__id=request.user.id)
-    context={}
-    context['data']=data
-    if request.method=='POST':
-        na=request.POST['name']
-        em=request.POST['email']
-        mo=request.POST['mob']
-        ci=request.POST['city']
-        ad=request.POST['address']
-        if len(na)< 6:
-            messages.error(request, " Your user name must minimum 6 characters")
-            return redirect('editprofile')
+    if request.user.is_authenticated:
+        data=u_dp.objects.get(userdt__id=request.user.id)
+        context={}
+        context['data']=data
+        if request.method=='POST':
+            na=request.POST['name']
+            em=request.POST['email']
+            mo=request.POST['mob']
+            ci=request.POST['city']
+            ad=request.POST['address']
+            if len(na)< 2:
+                messages.error(request, " Your user name must minimum 2 characters")
+                return redirect('editprofile')
 
-        elif not na.isalnum():
-            messages.error(request, " User name should only contain letters and numbers")
-            return redirect('editprofile')
-        elif not mo.isdigit():
-            messages.error(request, "Contact number should only contain numbers")
-            return redirect('editprofile')
-        
-        
-        elif not mo.isdigit():
-            messages.error(request, "Contact number should only contain numbers")
-            return redirect('editprofile')
-        us=User.objects.get(id=request.user.id)
-        us.username=na
-        us.email=em
-        us.save()
-        data.Address=ad
-        data.contact_no=mo
-        data.city=ci
-        data.save()
-        if "pic" in request.FILES:
-            data.dp=request.FILES['pic']
+            elif not na.isalnum():
+                messages.error(request, " User name should only contain letters and numbers")
+                return redirect('editprofile')
+            elif not mo.isdigit():
+                messages.error(request, "Contact number should only contain numbers")
+                return redirect('editprofile')
+            
+            
+            elif not mo.isdigit():
+                messages.error(request, "Contact number should only contain numbers")
+                return redirect('editprofile')
+            us=User.objects.get(id=request.user.id)
+            us.username=na
+            us.email=em
+            us.save()
+            data.Address=ad
+            data.contact_no=mo
+            data.city=ci
             data.save()
-        else:
-           pass
-        messages.success(request, 'profile updates successfully')
-        return render(request,'userpro.html', context)
-    messages.erorr(request, 'please provide valid data')
-    return render(request,'editprofile.html', context)
+            if "pic" in request.FILES:
+                data.dp=request.FILES['pic']
+                data.save()
+            else:
+                pass
+            messages.success(request, 'profile updates successfully')
+            return render(request,'userpro.html', context)
+        messages.erorr(request, 'please provide valid data')
+        return render(request,'editprofile.html', context)
+    return render(request,'login.html', context)
+
 
     
 def changepassword(request):
