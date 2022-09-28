@@ -256,7 +256,8 @@ def deleteuser(request,pk):
         user.delete()
         messages.success(request, 'Delete user sucessfully')
         return redirect('edit_user')
-    return render(request, 'edit_user.html')
+    auth.logout(request)
+    return render(request, 'login.html')
 
 
 
